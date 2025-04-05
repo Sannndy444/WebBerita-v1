@@ -7,12 +7,15 @@ use App\Http\Controllers\AdminArticleController;
 use App\Http\Controllers\AdminUserController;
 use App\Http\Controllers\UserHomeController;
 use App\Http\Controllers\UserArticleController;
+use App\Http\Controllers\PublicHomeController;
+use App\Http\Controllers\PublicArticleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', function () {
-    return view('welcome');
-});
+Route::get('/', [PublicHomeController::class, 'home'])->name('public.home');
+
+Route::get('/article', [PublicArticleController::class, 'list'])->name('public.article.list');
+Route::get('/article/detail/{id}', [PublicArticleController::class, 'detail'])->name('public.article.detail');
 
 Route::get('/dashboard', function () {
     return view('dashboard');
