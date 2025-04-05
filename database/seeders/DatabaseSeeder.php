@@ -19,11 +19,6 @@ class DatabaseSeeder extends Seeder
             'guard_name' => 'web',
         ]);
 
-        $penulisRole = Role::create([
-            'name' => 'penulis',
-            'guard_name' => 'web',
-        ]);
-
         $userRole = Role::create([
             'name' => 'user',
             'guard_name' => 'web',
@@ -36,13 +31,6 @@ class DatabaseSeeder extends Seeder
             'avatar' => 'images/default-avatar.png',
         ]);
 
-        $penulis = User::factory()->create([
-            'name' => 'Penulis',
-            'email' => 'penulis@gmail.com',
-            'password' => bcrypt('12345678'),
-            'avatar' => 'avatars/default-avatar.png',
-        ]);
-
         $user = User::factory()->create([
             'name' => 'User',
             'email' => 'user@gmail.com',
@@ -51,7 +39,6 @@ class DatabaseSeeder extends Seeder
         ]);
 
         $admin->assignRole($adminRole);
-        $penulis->assignRole($penulisRole);
         $user->assignRole($userRole);
     }
 }
