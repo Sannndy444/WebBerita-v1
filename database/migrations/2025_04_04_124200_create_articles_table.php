@@ -17,7 +17,7 @@ return new class extends Migration
             $table->string('slug')->unique();
             $table->string('image');
             $table->text('content');
-            $table->foreignId('user_id')->constrained('users')->onDelete('cascade');
+            $table->string('penulis');
             $table->foreignId('kategori_id')->constrained('kategoris')->onDelete('cascade');
             $table->enum('status', ['draft', 'published'])->default('draft');
             $table->timestamps();
