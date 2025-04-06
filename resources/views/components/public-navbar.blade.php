@@ -18,7 +18,7 @@
             <div class="flex items-center md:order-2 space-x-3 md:space-x-0 rtl:space-x-reverse">
                 <button type="button" class="flex text-sm bg-gray-800 rounded-md md:me-0 hover:bg-gray-400">
                     <span class="sr-only">Open user menu</span>
-                    <p class="font-semibold py-2 px-6 text-white hover:text-gray-800">Login</p>
+                    <a href="{{ route('login') }}" class="font-semibold py-2 px-6 text-white hover:text-gray-800">Login</a>
                 </button>
             </div>
         </div>

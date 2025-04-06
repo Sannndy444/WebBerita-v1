@@ -12,10 +12,11 @@ use App\Http\Controllers\PublicArticleController;
 use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
 
-Route::get('/', [PublicHomeController::class, 'home'])->name('public.home');
-
-Route::get('/article', [PublicArticleController::class, 'list'])->name('public.article.list');
-Route::get('/article/detail/{id}', [PublicArticleController::class, 'detail'])->name('public.article.detail');
+Route::middleware('guest')->group(function () {
+    Route::get('/', [PublicHomeController::class, 'home'])->name('public.home');
+    Route::get('/article', [PublicArticleController::class, 'list'])->name('public.article.list');
+    Route::get('/article/detail/{id}', [PublicArticleController::class, 'detail'])->name('public.article.detail');
+});
 
 Route::get('/dashboard', function () {
     return view('dashboard');
@@ -30,17 +31,14 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
 
-    Route::get('/admin/kategori/list', [AdminKategoriController::class, 'list'])->name('admin.kategori.list');
-    Route::post('/admin/kategori/create', [AdminKategoriController::class, 'create'])->name('admin.kategori.create');
+    Route::post('/admin/kategori/list', [AdminKategoriController::class, 'list'])->name('admin.kategori.list');
 
-    Route::get('/admin/tag/list', [AdminTagController::class, 'list'])->name('admin.tag.list');
-    Route::post('/admin/tag/create', [AdminTagController::class, 'create'])->name('admin.tag.create');
+    Route::post('/admin/tag/list', [AdminTagController::class, 'list'])->name('admin.tag.list');
 
-    Route::get('/admin/article/list', [AdminArticleController::class, 'list'])->name('admin.article.list');
-    Route::get('/admin/article/create', [AdminArticleController::class, 'create'])->name('admin.article.create');
+    Route::post('/admin/article/create', [AdminArticleController::class, 'create'])->name('admin.article.create');
     Route::get('/admin/article/detail/{id}', [AdminArticleController::class, 'detail'])->name('admin.article.detail');
-
-    Route::get('/admin/user/list', [AdminUserController::class, 'list'])->name('admin.user');
+    Route::get('/admin/article/publish', [AdminArticleController::class, 'publish'])->name('admin.article.publish');
+    Route::get('/admin/article/draft', [AdminArticleController::class, 'draft'])->name('admin.article.draft');
 });
 
 Route::middleware(['auth', 'role:user|admin'])->group(function () {

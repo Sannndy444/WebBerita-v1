@@ -9,8 +9,16 @@ class PublicHomeController extends Controller
 {
     public function home()
     {
-        $checkUser = Auth::user();
+        if (Auth::check()) {
+            $user = Auth::user();
 
-        return view('public.home', compact('checkUser'));
+            if ($user->hasRole('admin')) {
+                return redirect()->route('admin.dashboard');
+            } elseif ($user->hasRole('user')) {
+                return redirect()->route('user.home');
+            }
+        }
+
+        return view('public.home');
     }
 }

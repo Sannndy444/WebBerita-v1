@@ -8,7 +8,7 @@
 </head>
 
 <body class="bg-gray-600">
-    <x-public-navbar></x-public-navbar>
+    <x-user-navbar></x-user-navbar>
 
     <div class="flex justify-center">
         <div class="grid grid-cols-3 gap-4 justify-center w-full h-auto pt-6 px-16">
