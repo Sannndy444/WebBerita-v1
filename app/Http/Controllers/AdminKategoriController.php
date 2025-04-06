@@ -9,7 +9,9 @@ class AdminKategoriController extends Controller
 {
     public function list()
     {
-        return view('admin.kategori.list');
+        $kategori = Kategori::all();
+
+        return view('admin.kategori.list', compact('kategori'));
     }
 
     public function store(Request $request)
@@ -27,5 +29,16 @@ class AdminKategoriController extends Controller
         ]);
 
         return redirect()->route('admin.kategori.list');
+    }
+
+    public function destroy(Kategori $kategori)
+    {
+        try {
+            $kategori->delete();
+            return redirect()->route('admin.kategori.list');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.candidate.index')
+                ->with('error', 'Candidate delete error.');
+        }
     }
 }

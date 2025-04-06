@@ -9,7 +9,9 @@ class AdminTagController extends Controller
 {
     public function list()
     {
-        return view('admin.tag.list');
+        $tag = Tags::all();
+
+        return view('admin.tag.list', compact('tag'));
     }
 
     public function store(Request $request)
@@ -26,6 +28,17 @@ class AdminTagController extends Controller
             'slug' => $request->slug,
         ]);
 
-        return redirect()->route('admin.kategori.list');
+        return redirect()->route('admin.tag.list');
+    }
+
+    public function destroy(Tags $tags)
+    {
+        try {
+            $tags->delete();
+            return redirect()->route('admin.tag.list');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.tag.list')
+                ->with('error', 'error');
+        }
     }
 }

@@ -76,8 +76,12 @@
                                             @endforeach
                                         </td>
                                         <td class="px-6 py-4 text-right">
-                                            <a href="#" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">Show</a>
-                                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                            <a href="{{ route('admin.article.detail', $a->id) }}" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">Show</a>
+                                            <form action="{{ route('admin.article.destroy', $a) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
                                     @endforeach

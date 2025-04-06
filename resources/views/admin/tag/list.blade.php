@@ -47,6 +47,15 @@
         <x-admin-navbar></x-admin-navbar>
 
         <div class="flex-1 ml-64">
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <div class="p-6">
                 <div class="block max-w-full p-6 bg-gray-800 border border-gray-800 rounded-lg shadow-sm ">
                     <div class="flex justify-between">
@@ -79,20 +88,26 @@
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($tag as $t)
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            1
+                                            {{ $loop->iteration }}
                                         </th>
                                         <td class="px-6 py-4">
-                                            Silver
+                                            {{ $t->name }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            Laptop
+                                            {{ $t->slug }}
                                         </td>
                                         <td class="px-6 py-4 text-right">
-                                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
+                                            <form action="{{ route('admin.tag.destroy', $t) }}" method="post">
+                                                @csrf
+                                                @method('DELETE')
+                                                <button type="submit" class="font-medium text-red-600 dark:text-red-500 hover:underline">Delete</button>
+                                            </form>
                                         </td>
                                     </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>

@@ -15,7 +15,7 @@ use Illuminate\Support\Facades\Route;
 Route::middleware('guest')->group(function () {
     Route::get('/', [PublicHomeController::class, 'home'])->name('public.home');
     Route::get('/article', [PublicArticleController::class, 'list'])->name('public.article.list');
-    Route::get('/article/detail/{id}', [PublicArticleController::class, 'detail'])->name('public.article.detail');
+    Route::get('/article/{id}', [PublicArticleController::class, 'detail'])->name('public.article.detail');
 });
 
 Route::get('/dashboard', function () {
@@ -33,22 +33,19 @@ Route::middleware(['auth', 'role:admin'])->group(function () {
 
     Route::get('/admin/kategori/list', [AdminKategoriController::class, 'list'])->name('admin.kategori.list');
     Route::post('/admin/kategori/store', [AdminKategoriController::class, 'store'])->name('admin.kategori.store');
+    Route::delete('/admin/kategori/delete/{kategori}', [AdminKategoriController::class, 'destroy'])->name('admin.kategori.destroy');
 
     Route::get('/admin/tag/list', [AdminTagController::class, 'list'])->name('admin.tag.list');
     Route::post('/admin/tag/store', [AdminTagController::class, 'store'])->name('admin.tag.store');
+    Route::delete('/admin/tag/delete/{tags}', [AdminTagController::class, 'destroy'])->name('admin.tag.destroy');
 
     Route::get('/admin/article/create', [AdminArticleController::class, 'create'])->name('admin.article.create');
     Route::get('/admin/article/detail/{id}', [AdminArticleController::class, 'detail'])->name('admin.article.detail');
     Route::get('/admin/article/publish', [AdminArticleController::class, 'publish'])->name('admin.article.publish');
     Route::get('/admin/article/draft', [AdminArticleController::class, 'draft'])->name('admin.article.draft');
     Route::post('/admin/article/store', [AdminArticleController::class, 'store'])->name('admin.article.store');
-});
-
-Route::middleware(['auth', 'role:user|admin'])->group(function () {
-    Route::get('/home', [UserHomeController::class, 'home'])->name('user.home');
-
-    Route::get('/article/list', [UserArticleController::class, 'list'])->name('user.article.list');
-    Route::get('/article/detail/{id}', [UserArticleController::class, 'detail'])->name('user.article.detail');
+    Route::get('/admin/article/update/{id}', [AdminArticleController::class, 'updateStatus'])->name('admin.article.status');
+    Route::delete('/admin/article/delete/{article}', [AdminArticleController::class, 'destroy'])->name('admin.article.destroy');
 });
 
 require __DIR__.'/auth.php';

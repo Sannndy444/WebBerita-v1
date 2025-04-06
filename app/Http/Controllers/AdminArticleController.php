@@ -11,9 +11,15 @@ use Illuminate\Support\Facades\Auth;
 
 class AdminArticleController extends Controller
 {
-    public function detail()
+    public function detail($id)
     {
-        return view('admin.article.detail');
+        // dd($id);
+
+        $article = Article::with('kategori', 'tag')
+            ->where('id', $id)
+            ->first();
+
+        return view('admin.article.detail', compact('article'));
     }
 
     public function create()
@@ -68,7 +74,7 @@ class AdminArticleController extends Controller
 
     public function publish()
     {
-        $article = Article::where('status', 'publish')
+        $article = Article::where('status', 'published')
             ->with('kategori', 'tag')
             ->get();
 
@@ -82,5 +88,28 @@ class AdminArticleController extends Controller
             ->get();
 
         return view('admin.article.draft', compact('article'));
+    }
+
+    public function updateStatus($id)
+    {
+        // dd($id);
+
+        $article = Article::findOrFail($id);
+
+        $article->update([
+            'status' => 'published',
+        ]);
+        return redirect()->route('admin.article.draft');
+    }
+
+    public function destroy(Article $article)
+    {
+        try {
+            $article->delete();
+            return redirect()->route('admin.article.draft');
+        } catch (\Exception $e) {
+            return redirect()->route('admin.article.draft')
+                ->with('error', 'eror');
+        }
     }
 }

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use App\Models\Article;
 
 class PublicHomeController extends Controller
 {
@@ -19,6 +20,18 @@ class PublicHomeController extends Controller
             }
         }
 
-        return view('public.home');
+        $old = Article::with('kategori', 'tag')
+            ->where('status', 'published')
+            ->oldest()
+            ->paginate(12);
+
+        $article = Article::with('kategori', 'tag')
+            ->where('status', 'published')
+            ->latest()
+            ->paginate(3);
+
+        $randomArticle = Article::inRandomOrder()->first();
+
+        return view('public.home', compact('article', 'old', 'randomArticle'));
     }
 }
