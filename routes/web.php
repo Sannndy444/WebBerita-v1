@@ -31,14 +31,17 @@ Route::middleware('auth')->group(function () {
 Route::middleware(['auth', 'role:admin'])->group(function () {
     Route::get('/admin/dashboard', [AdminDashboardController::class, 'dashboard'])->name('admin.dashboard');
 
-    Route::post('/admin/kategori/list', [AdminKategoriController::class, 'list'])->name('admin.kategori.list');
+    Route::get('/admin/kategori/list', [AdminKategoriController::class, 'list'])->name('admin.kategori.list');
+    Route::post('/admin/kategori/store', [AdminKategoriController::class, 'store'])->name('admin.kategori.store');
 
-    Route::post('/admin/tag/list', [AdminTagController::class, 'list'])->name('admin.tag.list');
+    Route::get('/admin/tag/list', [AdminTagController::class, 'list'])->name('admin.tag.list');
+    Route::post('/admin/tag/store', [AdminTagController::class, 'store'])->name('admin.tag.store');
 
-    Route::post('/admin/article/create', [AdminArticleController::class, 'create'])->name('admin.article.create');
+    Route::get('/admin/article/create', [AdminArticleController::class, 'create'])->name('admin.article.create');
     Route::get('/admin/article/detail/{id}', [AdminArticleController::class, 'detail'])->name('admin.article.detail');
     Route::get('/admin/article/publish', [AdminArticleController::class, 'publish'])->name('admin.article.publish');
     Route::get('/admin/article/draft', [AdminArticleController::class, 'draft'])->name('admin.article.draft');
+    Route::post('/admin/article/store', [AdminArticleController::class, 'store'])->name('admin.article.store');
 });
 
 Route::middleware(['auth', 'role:user|admin'])->group(function () {

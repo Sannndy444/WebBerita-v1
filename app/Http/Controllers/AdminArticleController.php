@@ -5,15 +5,12 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Article;
 use App\Models\article_tags;
+use App\Models\Kategori;
+use App\Models\Tags;
 use Illuminate\Support\Facades\Auth;
 
 class AdminArticleController extends Controller
 {
-    public function list()
-    {
-        return view('admin.article.list');
-    }
-
     public function detail()
     {
         return view('admin.article.detail');
@@ -21,11 +18,16 @@ class AdminArticleController extends Controller
 
     public function create()
     {
-        return view('admin.article.create');
+        $kategori = Kategori::all();
+        $tag = Tags::all();
+
+        return view('admin.article.create', compact('kategori', 'tag'));
     }
 
     public function store(Request $request)
     {
+        // dd($request->toArray());
+
         $user = Auth::user();
 
         $request->validate([
@@ -37,11 +39,15 @@ class AdminArticleController extends Controller
             'content' => 'required|string|max:5000',
         ]);
 
+        // dd($user);
+
         if ($request->hasFile('image')) {
             $image = $request->file('image');
             $imagePath = time() . '.' . $image->getClientOriginalExtension();
             $image->storeAs('image', $imagePath, 'public');
         }
+
+        // dd($imagePath);
 
         $article = Article::create([
             'title' => $request->title,
@@ -57,16 +63,24 @@ class AdminArticleController extends Controller
             'tag_id' => $request->tag_id,
         ]);
 
-        return redirect()->route('admin.kategori.list');
+        return redirect()->route('admin.article.create');
     }
 
     public function publish()
     {
-        return view('admin.article.publish');
+        $article = Article::where('status', 'publish')
+            ->with('kategori', 'tag')
+            ->get();
+
+        return view('admin.article.publish', compact('article'));
     }
 
     public function draft()
     {
-        return view('admin.article.draft');
+        $article = Article::where('status', 'draft')
+            ->with('kategori', 'tag')
+            ->get();
+
+        return view('admin.article.draft', compact('article'));
     }
 }

@@ -12,6 +12,15 @@
         <x-admin-navbar></x-admin-navbar>
 
         <div class="flex-1 ml-64">
+            @if ($errors->any())
+            <div class="alert alert-danger">
+                <ul>
+                    @foreach ($errors->all() as $error)
+                    <li>{{ $error }}</li>
+                    @endforeach
+                </ul>
+            </div>
+            @endif
             <div class="p-6">
                 <div class="block max-w-full p-6 bg-gray-800 border border-gray-800 rounded-lg shadow-sm ">
                     <div class="flex justify-between">
@@ -21,7 +30,8 @@
                     <hr class="h-px my-4 bg-gray-200 border-0 dark:bg-gray-700">
 
                     <div class="">
-                        <form>
+                        <form action="{{ route('admin.article.store') }}" method="post" enctype="multipart/form-data">
+                            @csrf
                             <div class="mb-6">
                                 <label for="title" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Title Article</label>
                                 <input type="text" name="title" id="title" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
@@ -32,22 +42,20 @@
                             </div>
                             <div class="mb-6">
                                 <label for="kategori" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Kategori</label>
-                                <select name="kategori" id="kategori" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                                    <option selected>Choose a country</option>
-                                    <option value="US">United States</option>
-                                    <option value="CA">Canada</option>
-                                    <option value="FR">France</option>
-                                    <option value="DE">Germany</option>
+                                <select name="kategori_id" id="kategori" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                    <option value="" disabled selected>Choose Kategori</option>
+                                    @foreach ($kategori as $k)
+                                    <option value="{{ $k->id }}">{{ $k->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-6">
                                 <label for="tag" class="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Select Tag</label>
-                                <select name="tag" id="tag" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
-                                    <option selected>Choose a country</option>
-                                    <option value="US">United States</option>
-                                    <option value="CA">Canada</option>
-                                    <option value="FR">France</option>
-                                    <option value="DE">Germany</option>
+                                <select name="tag_id" id="tag" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required>
+                                    <option disabled selected>Choose Tag</option>
+                                    @foreach ($tag as $t)
+                                    <option value="{{ $t->id }}">{{ $t->name }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                             <div class="mb-6">

@@ -28,74 +28,59 @@
                                 <thead class="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
                                     <tr>
                                         <th scope="col" class="px-6 py-3">
-                                            Product name
+                                            No
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Color
+                                            Image
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Category
+                                            Title
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            Price
+                                            Kategori
                                         </th>
                                         <th scope="col" class="px-6 py-3">
-                                            <span class="sr-only">Edit</span>
+                                            Tag
+                                        </th>
+                                        <th scope="col" class="px-6 py-3 text-right">
+                                            Action
                                         </th>
                                     </tr>
                                 </thead>
                                 <tbody>
+                                    @foreach ($article as $a)
                                     <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
                                         <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            Apple MacBook Pro 17"
+                                            {{ $loop->iteration }}
                                         </th>
                                         <td class="px-6 py-4">
-                                            Silver
+                                            image
                                         </td>
                                         <td class="px-6 py-4">
-                                            Laptop
+                                            {{ $a->title }}
                                         </td>
                                         <td class="px-6 py-4">
-                                            $2999
+                                            @if ($a->kategori)
+                                            <span class="bg-blue-200 text-green-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                                                {{ $a->kategori->name }}
+                                            </span>
+                                            @else
+                                            No Data Found
+                                            @endif
+                                        </td>
+                                        <td class="px-6 py-4">
+                                            @foreach ($a->tag as $tag)
+                                            <span class="bg-blue-200 text-blue-800 text-xs font-semibold mr-2 px-2.5 py-0.5 rounded">
+                                                {{ $tag->name }}
+                                            </span>
+                                            @endforeach
                                         </td>
                                         <td class="px-6 py-4 text-right">
+                                            <a href="#" class="font-medium text-yellow-600 dark:text-yellow-500 hover:underline">Show</a>
                                             <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
                                         </td>
                                     </tr>
-                                    <tr class="bg-white border-b dark:bg-gray-800 dark:border-gray-700 border-gray-200 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            Microsoft Surface Pro
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            White
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            Laptop PC
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            $1999
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                        </td>
-                                    </tr>
-                                    <tr class="bg-white dark:bg-gray-800 hover:bg-gray-50 dark:hover:bg-gray-600">
-                                        <th scope="row" class="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
-                                            Magic Mouse 2
-                                        </th>
-                                        <td class="px-6 py-4">
-                                            Black
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            Accessories
-                                        </td>
-                                        <td class="px-6 py-4">
-                                            $99
-                                        </td>
-                                        <td class="px-6 py-4 text-right">
-                                            <a href="#" class="font-medium text-blue-600 dark:text-blue-500 hover:underline">Edit</a>
-                                        </td>
-                                    </tr>
+                                    @endforeach
                                 </tbody>
                             </table>
                         </div>
